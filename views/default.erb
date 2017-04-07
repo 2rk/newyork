@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <h1 id="my-header">hello world!!</h1>
+    <p>This is my body text</p>
+    <hr>
+    <input id="user-name">
+    <button id="update-button">Update!</button>
+  </body>
+
+  <script>
+    function updateMyHeader() {
+      $.getJSON('/data?name=Everyone!').done(function(data) {
+          $("#my-header").text(data.greeting);
+      });
+    }
+
+    function sendUserName() {
+      var name = $('#user-name').val();
+      $.ajax({
+          dataType: "json",
+          method: "POST",
+          url: "/data",
+//          contentType: "application/json",
+          data: { name: name }
+      }).then(function(data) {
+          $("#my-header").text(data.name);
+      });
+    }
+
+    $('#update-button').on('click', sendUserName);
+  </script>
+
+</html>
